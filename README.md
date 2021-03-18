@@ -21,6 +21,6 @@ This version includes a simplistic and quicker GUI to aid with cell classificati
 -VIDEO: Python IVEN   
 -VIDEO: Python Siplay Final Figure  
 
-**Help in implementing the Code:**
+**Help in implementing the code:**
 
 Contact jessica.forsyth@postgrad.manchester.ac.uk with screenshots and details description of any issues with implementation. Please refer to the videos and video tutorials first for quick help on how to use IVEN.
