@@ -10,6 +10,7 @@ This version of IVEN includes a more extensive use of GUIs and is generally reco
 This version includes a simplistic and quicker GUI to aid with cell classification (inside versus outside) but a hard coded approach to select the thresholding of neighbour distances. Any changes to how neighbours are thresholding will have to made as advised in the tutorials. 
 
 **Tutorials Available:** 
+
 -Data Assembly for Input into IVEN Pipeline   
 -IVEN Neighbour Distance Threshold Advice   
 -IVEN Parameter Change   
@@ -21,4 +22,5 @@ This version includes a simplistic and quicker GUI to aid with cell classificati
 -VIDEO: Python Siplay Final Figure  
 
 **Help in implementing the Code:**
+
 Contact jessica.forsyth@postgrad.manchester.ac.uk with screenshots and details description of any issues with implementation. Please refer to the videos and video tutorials first for quick help on how to use IVEN.
