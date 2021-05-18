@@ -25,6 +25,10 @@ warningid='MATLAB:table:ModifiedAndSavedVarnames';
 warning('off',warningid);
 fprintf('Compiling files.......\n')
 
+all_ins=NaN(1000,num_files); %check that the number of cells within a population does not exceed 1000
+all_mte=NaN(1000,num_files);
+all_pte=NaN(1000,num_files);
+
 for file_num=1:num_files
     fprintf('File %d out of %d : ',file_num,num_files)
     fprintf([file{file_num},'\n'])                 %this displays the filename for reference
@@ -48,31 +52,42 @@ for file_num=1:num_files
     
     ins_nbrs=[];
     out_nbrs=[];
+    mu_nbrs=[];
+    po_nbrs=[];
     num_mu=0;
+    num_po=0;
     num_out=0;
+    num_ins=0;
     
     for i=1:num_cells
 
         if OUT(i)==0
+            num_ins=num_ins+1;
             arrays.all_INS=[arrays.all_INS;nbrs_new(i)];
             ins_nbrs=[ins_nbrs;nbrs_new(i)];
             arrays.comp_INS=[arrays.comp_INS;(100*((nbrs_new(i)-nbr_comp(i))/nbrs_new(i)))];
         else
-            nuout=num_out+1;
+            num_out=num_out+1;
             arrays.all_OUT=[arrays.all_OUT;nbrs_new(i)];
             out_nbrs=[out_nbrs;nbrs_new(i)];
             arrays.comp_OUT=[arrays.comp_OUT;(100*(nbr_comp(i)/nbrs_new(i)))];
 
             if (nbr_comp(i)/nbrs_new(i))==1
                 num_mu=num_mu+1;
+                mu_nbrs=[mu_nbrs;nbrs_new(i)];
                 arrays.mu_TE=[arrays.mu_TE;nbrs_new(i)];
             else
+                num_po=num_po+1;
+                po_nbrs=[po_nbrs;nbrs_new(i)];
                 arrays.po_TE=[arrays.po_TE;nbrs_new(i)];
             end
 
         end
     end
  
+    all_ins(1:num_ins,file_num)=ins_nbrs;
+    all_mte(1:num_mu,file_num)=mu_nbrs;
+    all_pte(1:num_po,file_num)=po_nbrs;     
     
     arrays.num_mural=[arrays.num_mural;num_mu];
     arrays.perc_mural=[arrays.perc_mural;100*(num_mu/num_out)];

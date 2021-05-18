@@ -50,7 +50,8 @@ def manual_correction(points,num_cells, outside,val1,val2,val3):
     for i in range(0, 100, 1):
         c = c1 + ((i / 100) * (c2 - c1))
         fc[i, 0:3] = c[:]
-    order1t = np.round(val1, 2) * 100
+    order1t = np.floor(val1*100)
+    order1t[order1t==0]=1
     order1 = order1t.astype(int)
     fc1 = fc[order1-1, :]
     fc1 = np.reshape(fc1, [num_cells, 4])
@@ -62,9 +63,10 @@ def manual_correction(points,num_cells, outside,val1,val2,val3):
     for i in range(0, 100, 1):
         c = c1 + ((i / 100) * (c2 - c1))
         fc[i, 0:3] = c[:]
-    order2t = np.round(val2, 2) * 100
+    order2t = np.floor(val2*100)
+    order2t[order2t==0]=1
     order2 = order2t.astype(int)
-    fc2 = fc[order2 - 1, :]
+    fc2 = fc[order2-1, :]
     fc2 = np.reshape(fc2, [num_cells, 4])
 
     #far-red colour gradient : this creates a normalised colour scheme for the far-red channel data
@@ -74,7 +76,8 @@ def manual_correction(points,num_cells, outside,val1,val2,val3):
     for i in range(0, 100, 1):
         c = c1 + ((i / 100) * (c2 - c1))
         fc[i, 0:3] = c[:]
-    order3t = np.round(val3, 2) * 100
+    order3t = np.floor(val3*100)
+    order3t[order3t==0]=1
     order3 = order3t.astype(int)
     fc3 = fc[order3-1, :]
     fc3 = np.reshape(fc3, [num_cells, 4])
