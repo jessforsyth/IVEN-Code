@@ -72,6 +72,13 @@ for c1 in range(num_cells):
             if outside[c2, 0] == 1:        #if it is a neighbour, check if the cell is TE or INS
                 nbr_comp[c1, 0] += 1  #if it is TE, add one to the count
 
+#another extra - output the cell IDs of the neighbours of each cell 
+cell_ID_list=funcs.cell_ID_list_gen(num_cells, nbrs2, cell_id)
+
+#final extra - calculating the median distance of a cell to its neighbours 
+med_nbr_dist=funcs.median_nbr_dist(num_cells,nbrs2, points)
+print(med_nbr_dist)
+
 
 #now prepare data for saving
 fname_only = os.path.basename(fname)
@@ -79,8 +86,8 @@ dire = os.path.dirname(fname)
 fname_out = dire + '/nbrs_' + fname_only  #file name that includes the directory and filename of the excel document
 
 #pepare data for excel table ({'Name':variable,.....}) if you add more to the table, this is where you have to change the output
-data_out = pd.DataFrame({'Cell ID': cell_id, 'x': x, 'y': y, 'z': z, 'CH1': ch1, 'CH2': ch2, 'CH3': ch3, 'CH4': ch4, 'CH2_adj': ch2_a, 'CH3_adj': ch3_a, 'CH4_adj': ch4_a, 'outside': outside[:, 0], '# nbrs': neighbour_count, '#nbrs that are outside': nbr_comp[:, 0]})
-data_out = data_out[['Cell ID', 'x', 'y', 'z', 'CH1', 'CH2', 'CH3', 'CH4', 'CH2_adj', 'CH3_adj', 'CH4_adj', 'outside', '# nbrs', '#nbrs that are outside']]
+data_out = pd.DataFrame({'Cell ID': cell_id, 'x': x, 'y': y, 'z': z, 'CH1': ch1, 'CH2': ch2, 'CH3': ch3, 'CH4': ch4, 'CH2_adj': ch2_a, 'CH3_adj': ch3_a, 'CH4_adj': ch4_a, 'outside': outside[:, 0], '#nbrs': neighbour_count, '#nbrs_that_are_outside': nbr_comp[:, 0],'med_nbr_dist':med_nbr_dist, 'nbr_ID_list':cell_ID_list})
+data_out = data_out[['Cell ID', 'x', 'y', 'z', 'CH1', 'CH2', 'CH3', 'CH4', 'CH2_adj', 'CH3_adj', 'CH4_adj', 'outside', '#nbrs', '#nbrs_that_are_outside','med_nbr_dist','nbr_ID_list']]
 data_out = data_out.sort_values(by='outside')  #sort data by outside vs INS, choose whatever you like!
 data_out.to_excel(fname_out, sheet_name='test', index=False)
 

@@ -108,6 +108,7 @@ for file_num=1:num_files
     %now calculate the number of neighbours for the cells
     [nbrs,num_nbrs,nbrs_new,num_nbrs_new]=dt_nbr_calc(xyz,TRI,num_cells,num_tetra,option,thresh_param,outside); %calculate the number of 'true' neighbours
 
+      
     %As an extra, and to demonstrate what sort of data IVEN can provide, we
     %added this part on, this describes the composition of the number of
     %neighbours that are outside cells. This was used to identify the mural
@@ -132,12 +133,19 @@ for file_num=1:num_files
             end
         end
     end
-
+    
+    %Another extra! The output of the cell_IDs of neighbours of each cell 
+    [nbr_list]=nbr_list_gen(nbrs_new,cell_id,num_cells);
+    
+    %Final extra! (see how easy it is to add more modules to egt the most
+    %out of the data. To output the median distance between a cell and its
+    %neighbours. 
+    [med_nbr_dist]=median_nbr_dist_calc(nbrs_new,num_cells,num_nbrs_new,xyz);   
 
     close all
     finalfig(cell_id,xyz,num_cells,ch2_adj,ch3_adj,ch4_adj,outside,inside,path,file{file_num}) %generate final figure of embryo (with cell IDs labelled and cell class. shown
     close all
-    output_file_3chan(file{file_num},path,cell_id,x,y,z,ch1,ch2,ch3,ch4,ch2_adj,ch3_adj,ch4_adj,num_nbrs,num_nbrs_new,outside,num_cells,nbr_comp(:,3)); %create and save output file as .xls file.
+    output_file_3chan(file{file_num},path,cell_id,x,y,z,ch1,ch2,ch3,ch4,ch2_adj,ch3_adj,ch4_adj,num_nbrs,num_nbrs_new,outside,num_cells,nbr_comp(:,3),med_nbr_dist,nbr_list); %create and save output file as .xls file.
     fprintf(['File saved.','\n'])
     fprintf('...................\n')
 end

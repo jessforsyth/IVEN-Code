@@ -1,4 +1,4 @@
-function [cell_id,x,y,z,ch1,ch2,ch3,ch4,ch2_adj,ch3_adj,ch4_adj,outside,nbrs_old,nbrs_new,nbr_comp]=import_nbr_file_python(table,headings);
+function [cell_id,x,y,z,ch1,ch2,ch3,ch4,ch2_adj,ch3_adj,ch4_adj,outside,nbrs_old,nbrs_new,nbr_comp,med_nbr_dist]=import_nbr_file_python(table,headings);
 % this function extracts your data into the various variables. 
 %function str2double simply converts the values in the table into 'usable'
 %data. 
@@ -17,6 +17,7 @@ function [cell_id,x,y,z,ch1,ch2,ch3,ch4,ch2_adj,ch3_adj,ch4_adj,outside,nbrs_old
     nbrs_old=table(headings:end,13);
     nbrs_new=table(headings:end,14);
     nbr_comp=table(headings:end,15);
+    med_nbr_dist= table(headings:end,16);
     
     
 end

@@ -1,4 +1,4 @@
-function output_file_3chan(file,filepath,cell_id,x,y,z,ch1,ch2,ch3,ch4,ch2_adj,ch3_adj,ch4_adj,nbrs_num_old, nbrs_num_new,outside,num_cells,nbr_comp)
+function output_file_3chan(file,filepath,cell_id,x,y,z,ch1,ch2,ch3,ch4,ch2_adj,ch3_adj,ch4_adj,nbrs_num_old, nbrs_num_new,outside,num_cells,nbr_comp,med_nbr_dist,nbr_list)
 %This function outputs data into an excel spreadsheet, separate to the
 %input file. This way data cannot be overwritten, plus multiple comaprisons
 %of data can be performed easily. 
@@ -16,8 +16,8 @@ for v=1:num_cells
 end
 
 
-T=[string('Cell_ID'),string('X'),string('Y'),string('Z'),string('Ch1'),string('Ch2'),string('Ch3'),string('Ch4'),string('Ch2_adj'),string('Ch3_adj'),string('Ch4_adj'),string('Outside'),string('#nbrs_old'), string('#nbrs_new'), string('#nbrs_that_are_outside')];
-T2=[cell_id,x,y,z,ch1,ch2,ch3,ch4,ch2_adj,ch3_adj,ch4_adj,outside_id,nbrs_num_old, nbrs_num_new,nbr_comp];
+T=[string('Cell_ID'),string('X'),string('Y'),string('Z'),string('Ch1'),string('Ch2'),string('Ch3'),string('Ch4'),string('Ch2_adj'),string('Ch3_adj'),string('Ch4_adj'),string('Outside'),string('#nbrs_old'), string('#nbrs_new'), string('#nbrs_that_are_outside'),string('Median Dist to nbrs'),string('nbr_ID_list')];
+T2=[cell_id,x,y,z,ch1,ch2,ch3,ch4,ch2_adj,ch3_adj,ch4_adj,outside_id,nbrs_num_old, nbrs_num_new,nbr_comp,med_nbr_dist,nbr_list];
 T2=sortrows(T2,12);
 T=[T;T2];
 

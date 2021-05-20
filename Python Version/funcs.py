@@ -260,6 +260,33 @@ def nbr_check(points, num_cells, nbrs, threshold,outside):
                         nbrs2[i, j] = 1               
 
     return[nbrs2]                                  #return true/corrected neighbour matrix
+	
+def cell_ID_list_gen(num_cells, nbrs2, cell_id):
+	#output a list of strings of the cell ID values for output in the excel file. 
+    cell_id_list=[]
+    for cell in range(num_cells):
+        nbrtemp=np.where(nbrs2[cell,:] == 1)
+        nbrtemp=nbrtemp[0] 
+        cellids=[int(cell_id[i]) for i in nbrtemp]
+        cellidtemp= ','.join([str(i) for i in cellids])
+        cell_id_list.append(cellidtemp)
+    return(cell_id_list)
+		
+def median_nbr_dist(num_cells,nbrs2, points):
+    #output the median distance between a cell and its neighbours
+    med_nbr_dist=[]
+    for i in range(0, num_cells):
+        dtemp=[]
+        for j in range(0, num_cells):
+            if nbrs2[i, j] == 1:                       #if cells are neighbours then compare distances
+                sqdx = (points[j, 0]-points[i, 0]) ** 2
+                sqdy = (points[j, 1]-points[i, 1]) ** 2
+                sqdz = (points[j, 2]-points[i, 2]) ** 2
+                d = math.sqrt(sqdx+sqdy+sqdz)        #calculating the distance between cells
+                dtemp.append(d)
+        med_nbr_dist.append(np.median(dtemp))
+    return(med_nbr_dist)
+		
 
 def show_fig_final(points, num_cells, outside, cell_id):
     #this function displays the final classificaion of inside and outside cells, plus labels each point with the cell id
