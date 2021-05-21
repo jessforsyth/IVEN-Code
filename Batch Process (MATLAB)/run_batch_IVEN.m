@@ -1,15 +1,34 @@
-function run_IVEN
+function run_batch_IVEN
 %Internal Versus External Neighbourhood (IVEN) quantification December 2020
 %Jessica E. Forsyth- Plusa Lab
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%By calling this function, you run 'IVEN' and classify cells as outsie or
-%inside and subsequently caluclate the Delaunay Triangulation to infer the
-%number of neighbours. See comments for explanations or points for
-%customisation.
+%By calling this function, you run the batch version of 'IVEN'. No GUIs are
+%used, and no manual checking of cell classification. 
+%We strongly recommend that you analyse datasets using the original version
+%of IVEN to ensure accurate classification of cells, however we provide
+%this for more simplistic data sets that do not require such interrogation.
+%
 
 close all 
 clear all
 clc
+
+%NOTE:
+%-this code with automatically assign cells as inside or outside as based
+%on the convex hull and shrink factor assigned below....
+shrink=0; %if shrink =0 = basic convex hull, if shrink=1 = internalised CH
+
+%Thresholding parameters, please change these as is appropriate to your
+%data:
+%Option=1 [Threshold using the inferred max nbr distance]
+%Option=2 [Threshold set to value e.g. cell diameter]
+%Option=3 [No thresholding of neighbours]
+%Option=4 [Threshold using inferred max nbr distance for inside and outside
+%cells] 
+%.....if using Option 1 or 4 set the value of k
+%params
+option=4;
+thresh_param=0.5;
 
 %stype the number of headings rows your data has
 headings=1;
@@ -81,29 +100,7 @@ for file_num=1:num_files
     
     num_tetra=length(TRI);   %calculate the number of tetrahedrons generated in the DT.
 
-    [shrink,fig,uis,outside_original]=outside_selection(cell_id,xyz,num_cells,ch2_adj,ch3_adj,ch4_adj);  %now classify cells as inside or outside
-    fprintf('Shrink Factor- %.4f \n',uis.Value)
-    outside=getappdata(fig,'Outside');    %get outside cell data
-    inside=getappdata(fig,'Inside');  %get inside cell data
-    fprintf('Number of cells re-assgined- %d \n',abs(length(outside_original)-length(outside)));
-    close(fig)
-
-    %Choose which thresholding method you are using
-    [fig2,uic1,uid,uic2,uit,uic3,uic4,uid2]=thresholdChoice();
-    if uic1.Value==1
-        option=1;
-        thresh_param=str2num(uid.Value);
-    elseif uic2.Value==1
-        option=2;
-        thresh_param=str2double(uit.Value);
-    elseif uic3.Value==1
-        option=3;
-        thresh_param=[];
-    elseif uic4.Value==1
-        option=4;
-        thresh_param=str2num(uid2.Value);
-    end
-    close(fig2)
+    [outside,inside]=outside_selection(cell_id,xyz,num_cells,shrink);  %now classify cells as inside or outside
     
     %now calculate the number of neighbours for the cells
     [nbrs,num_nbrs,nbrs_new,num_nbrs_new]=dt_nbr_calc(xyz,TRI,num_cells,num_tetra,option,thresh_param,outside); %calculate the number of 'true' neighbours
