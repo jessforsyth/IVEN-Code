@@ -24,9 +24,10 @@ for file_num=1:num_files
     fprintf('File %d out of %d : ',file_num,num_files)
     fprintf([file{file_num},'\n'])                 %this displays the filename for reference
     fname=fullfile(path,file{file_num});           %stitch file and path 
-    table=table2array(readtable(fname),'PreserveVariableNames','True'); %read in data from excel spreadsheet
+    tabletemp=readtable(fname);
+    table=table2array(tabletemp(:,1:end-1),'PreserveVariableNames','True'); %read in data from excel spreadsheet    s=size(table);
     s=size(table);
-    num_cells=s(1);                      %calculate the number of cells in the dataset
+    num_cells=s(1); 
     
     arrays.cell_numbers(file_num,1)=num_cells;
     
