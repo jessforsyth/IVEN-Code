@@ -11,3 +11,8 @@ If you have any questions, please refer to the standard tutorials or get in touc
 
 Currently we have only developed the batch processing method in MATLAB as this method appeared to be the most intensive when analysing large numbers of cells. 
 
+Post-analysis figure inspection NOTE: 
+-If you want to inspect the .fig files after running the batch process version of IVEN, please do the following. 
+openfig('filename.fig') %make sure you're in the correct directory of the file
+f=gcf;
+set(f,'visible','on')   %this step is required because when the fig files were created, their visibility was set to 'off' to prevent lost of windows. 
