@@ -7,8 +7,7 @@ IVEN is a platform that is able to help anlayse biological datasets and interrog
 
 **Python 3 Version:**  
 
-Set-up using requirements.txt file. 
-
+Set-up using virtual environment generated from included requirements.txt file. 
 User interface available to facilitate manual cell classification, cavity-adjacent cell calculation and threshold selection.
 Results output to .csv files. 
 
