@@ -10,17 +10,13 @@ IVEN is a platform that is able to help anlayse biological datasets and interrog
 Set-up using requirements.txt file. 
 
 User interface available to facilitate manual cell classification, cavity-adjacent cell calculation and threshold selection.
-
 Results output to .csv files. 
 
 **MATLAB Version:**  
-
 (discontinued)
-
 Available in the v1.0.0 release. 
 
 **Tutorials Available:** 
-
 -IVEN Neighbour Distance Threshold Advice   
 -IVEN Use in Python   
 -VIDEO: Python IVEN   
