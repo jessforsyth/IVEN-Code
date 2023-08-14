@@ -1,7 +1,9 @@
 # IVEN Code
  
  # IVEN
-A repository for the freely available software - IVEN (Internal Versus External Neighbourhood quantification). IVEN is a platform that is able to help anlayse biological datasets and interrogate the neighbourhood characteristics of systems. Cells are classified as inside or outside using the convex hull algorithm and subsequently the number of neighbours of cells are calculated using a 'corrected' Delaunay Triangulation. 
+A repository for the freely available software - IVEN (Internal Versus External Neighbourhood quantification). 
+Original journla article can be found at https://doi.org/10.1371/journal.pbio.3001345 . 
+IVEN is a platform that is able to help anlayse biological datasets and interrogate the neighbourhood characteristics of systems. Cells are classified as inside or outside using the convex hull algorithm and subsequently the number of neighbours of cells are calculated using a 'corrected' Delaunay Triangulation. 
 
 **Python 3 Version:**  
 
