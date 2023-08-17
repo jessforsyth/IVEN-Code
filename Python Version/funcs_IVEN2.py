@@ -147,7 +147,7 @@ def analysis_prefs(data, results, plotting):
     add_done_but = fig.add_axes([0.88, 0.01, 0.1, 0.075])
     done_but = Button(add_done_but, 'Finish')
     axthresh_box = fig.add_axes([0.64, 0.53, 0.1, 0.045])
-    thresh_box = TextBox(axthresh_box, 'Manual Threshold', textalignment='center')
+    thresh_box = TextBox(axthresh_box, label='Parameters', textalignment='center')
 
 
     embryo_position = [-0.07, -0.05, 0.6, 1.1]
@@ -222,21 +222,24 @@ def analysis_prefs(data, results, plotting):
 
     def manual_input(val):
         results.thresh_val = val
-        # rad2.set_active(2)
 
     def threshold_sel(event):
         results.thresh_method = event
         if event == 'Automatic (cell position dependent)':
-            plotting.thresh_annotation.set_text('Threshold automatically calculated for inside and \noutside cells separately.')
-            thresh_box.set_val('-')
+            plotting.thresh_annotation.set_text('Threshold automatically calculated for inside/\noutside cells. Enter k-value and press enter.')
+            thresh_box.set_val('0.5')
+            thresh_box.label.set_text('k-value   ')
         if event == 'Automatic (cell position independent)':
-            plotting.thresh_annotation.set_text('Threshold automatically calculated for all cells.\n')
-            thresh_box.set_val('-')
+            plotting.thresh_annotation.set_text('Threshold automatically calculated for all cells.\nEnter k-value and press enter.')
+            thresh_box.set_val('0.5')
+            thresh_box.label.set_text('k-value   ')
         if event == 'None':
             plotting.thresh_annotation.set_text('No threshold set for neighbourhood evaluation.\n')
             thresh_box.set_val('-')
+            thresh_box.label.set_text(' ')
         if event == 'Manual':
             plotting.thresh_annotation.set_text('Enter a threshold value in the box below and \npress enter.')
+            thresh_box.label.set_text('Threshold    ')
             thresh_box.set_val('10')
 
 
@@ -278,6 +281,14 @@ def eval_threshold(data, results):
                 # calc distance
                 results.dist_matrix1[cell1, cell2] = np.linalg.norm(data.xyz[cell1,:] - data.xyz[cell2,:])
 
+    #check if we have any outside/inside cells classified
+    if np.sum(results.outside_bool2) == 0 and results.thresh_method=='Automatic (cell position dependent)':
+        print('!!! No outside cells classified - thresholding method changed to "Automatic (cell position independent)" ')
+        results.thresh_method = 'Automatic (cell position independent)'
+    if np.sum(results.outside_bool2) == data.num_cells and results.thresh_method=='Automatic (cell position dependent)':
+        print('!!! No inside cells classified - thresholding method changed to "Automatic (cell position independent)" ')
+        results.thresh_method = 'Automatic (cell position independent)'
+
 
     if results.thresh_method=='None':
         results.thresh_val = np.nanmax(results.dist_matrix1) * 100  #big number so this doesn't actually do anything
@@ -291,7 +302,7 @@ def eval_threshold(data, results):
         dists_out = results.dist_matrix1[results.outside_ids2, : ]
         dists_in = results.dist_matrix1[results.inside_ids2, : ]
 
-        k = 0.5
+        k = float(results.thresh_val)
         p75_out = np.nanpercentile(dists_out, 75)
         iqr_out = scipy.stats.iqr(dists_out, nan_policy='omit')
         p75_in = np.nanpercentile(dists_in, 75)
@@ -306,7 +317,7 @@ def eval_threshold(data, results):
 
 
     if results.thresh_method=='Automatic (cell position independent)':
-        k = 0.5
+        k = float(results.thresh_val)
         p75 = np.nanpercentile(results.dist_matrix1, 75)
         iqr = scipy.stats.iqr(results.dist_matrix1, nan_policy='omit')
 
