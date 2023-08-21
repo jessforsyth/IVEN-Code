@@ -310,11 +310,6 @@ def eval_threshold(data, results):
 
         results.thresh_val = [p75_out + (k * iqr_out), p75_in + (k * iqr_in)]
 
-        results.all['threshold'] = np.ones(data.num_cells) * results.thresh_val[1]
-        for cell in range(data.num_cells):
-            if results.outside_bool2[cell] == 1:
-                results.all.loc[cell, 'threshold'] = results.thresh_val[0]
-
 
     if results.thresh_method=='Automatic (cell position independent)':
         k = float(results.thresh_val)
@@ -322,7 +317,7 @@ def eval_threshold(data, results):
         iqr = scipy.stats.iqr(results.dist_matrix1, nan_policy='omit')
 
         results.thresh_val = p75 + (k * iqr)
-        results.all['threshold'] = np.ones(data.num_cells) * results.thresh_val
+        # results.all['threshold'] = np.ones(data.num_cells) * results.thresh_val
 
     return results
 
