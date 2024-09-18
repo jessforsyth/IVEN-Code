@@ -394,7 +394,10 @@ def compile_results(data, results):
 
     for cell1 in range(data.num_cells):
         nbrs = np.where(results.nbr_matrix2[cell1, :] == 1)
-        results.all.loc[cell1,'nbr_ids'] = str(nbrs[0])
+        idx = nbrs[0]                   # these are the indices of the nbrs
+        ids = results.all['ID'].values  # get the ID labels from the original input data
+        ids_chosen = ids[idx]           # get the corresponding nbr IDs
+        results.all.loc[cell1,'nbr_ids'] = str(ids_chosen)
 
     # median and range of cell-nbr distances
     results.all['nbr_dist_mean'] = np.zeros(data.num_cells)
